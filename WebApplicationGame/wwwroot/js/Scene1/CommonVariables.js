@@ -14,3 +14,4 @@ var obj_Stone;
 var obj_teasure;
 var obj_buddha_head;
 var obj_octopus;
+

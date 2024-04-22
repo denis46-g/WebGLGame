@@ -1,6 +1,9 @@
 window.onload = function () {
     loadImgs();
     loadObjs();
+    const canvas = document.getElementById('glcanvas');
+    gl = canvas.getContext('webgl2');
+    shaderProgram = initShaderProgram(gl, vsSource, fsSource);
 
 }
 
@@ -21,6 +24,9 @@ function loadObjs() {
     obj_buddha_head = parseOBJ("buddha_head");
     obj_octopus = parseOBJ("octopus");
 }
+
+
+
 
 
 
