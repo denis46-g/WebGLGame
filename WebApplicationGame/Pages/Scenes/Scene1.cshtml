@@ -4,15 +4,17 @@
     ViewData["Title"] = "Scene1";
 }
 
-<div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
-    <script src="../js/parseOBJ.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+<script src="../js/parseOBJ.js"></script>
+<script src="../js/Scene1/CommonVariables.js"></script>
+<script src="../js/Scene1/Main_Script.js"></script>
+<script src="../js/init_and_load_shader.js"></script>
 
-    <script src="../js/init_and_load_shader.js"></script>
+<canvas id="glcanvas" width="1000" height="1000" style="float:left;"></canvas>
 
-    <canvas id="glcanvas" width="1000" height="1000" style="float:left;"></canvas>
-
-    @Model.OBJtoHTML("Field")
-    @Model.OBJtoHTML("Rock")
-
-</div>
+@Model.OBJtoHTML("Field")
+@Model.OBJtoHTML("Rock")
+@Model.OBJtoHTML("Stone")
+@Model.OBJtoHTML("teasure")
+@Model.OBJtoHTML("buddha_head")
+@Model.OBJtoHTML("octopus")
