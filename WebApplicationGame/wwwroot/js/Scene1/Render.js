@@ -13,35 +13,38 @@ function render() {
     var vMatrix = mat4.create();
     mat4.lookAt(vMatrix, [x_location, 2, z_location], [0, 0, 0], [0, 1, 0]);
 
-    var mvMatrix0 = mat4.create();
-    mat4.scale(mvMatrix0, mvMatrix0, [0.1, 0.1, 0.1]);
-    var nMatrix0 = mat3.create();
-    mat3.normalFromMat4(nMatrix0, mvMatrix0);
+    var mvMatrixs = [];
+    var nMatrixs = [];
     //
-    var mvMatrix1 = mat4.create();
-    mat4.scale(mvMatrix1, mvMatrix1, [0.1, 0.1, 0.1]);
-    var nMatrix1 = mat3.create();
-    mat3.normalFromMat4(nMatrix1, mvMatrix1);
+    mvMatrixs[0] = mat4.create();
+    mat4.scale(mvMatrixs[0], mvMatrixs[0], [0.1, 0.1, 0.1]);
+    nMatrixs[0] = mat3.create();
+    mat3.normalFromMat4(nMatrixs[0], mvMatrixs[0]);
     //
-    var mvMatrix2 = mat4.create();
-    mat4.scale(mvMatrix2, mvMatrix2, [0.1, 0.1, 0.1]);
-    var nMatrix2 = mat3.create();
-    mat3.normalFromMat4(nMatrix2, mvMatrix2);
+    mvMatrixs[1] = mat4.create();
+    mat4.scale(mvMatrixs[1], mvMatrixs[1], [0.1, 0.1, 0.1]);
+    nMatrixs[1] = mat3.create();
+    mat3.normalFromMat4(nMatrixs[1], mvMatrixs[1]);
     //
-    var mvMatrix3 = mat4.create();
-    mat4.scale(mvMatrix3, mvMatrix3, [0.1, 0.1, 0.1]);
-    var nMatrix3 = mat3.create();
-    mat3.normalFromMat4(nMatrix3, mvMatrix3);
+    mvMatrixs[2] = mat4.create();
+    mat4.scale(mvMatrixs[2], mvMatrixs[2], [0.1, 0.1, 0.1]);
+    nMatrixs[2] = mat3.create();
+    mat3.normalFromMat4(nMatrixs[2], mvMatrixs[2]);
     //
-    var mvMatrix4 = mat4.create();
-    mat4.scale(mvMatrix4, mvMatrix4, [0.1, 0.1, 0.1]);
-    var nMatrix4 = mat3.create();
-    mat3.normalFromMat4(nMatrix4, mvMatrix4);
+    mvMatrixs[3] = mat4.create();
+    mat4.scale(mvMatrixs[3], mvMatrixs[3], [0.1, 0.1, 0.1]);
+    nMatrixs[3] = mat3.create();
+    mat3.normalFromMat4(nMatrixs[3], mvMatrixs[3]);
     //
-    var mvMatrix5 = mat4.create();
-    mat4.scale(mvMatrix5, mvMatrix5, [0.1, 0.1, 0.1]);
-    var nMatrix5 = mat3.create();
-    mat3.normalFromMat4(nMatrix5, mvMatrix5);
+    mvMatrixs[4] = mat4.create();
+    mat4.scale(mvMatrixs[4], mvMatrixs[4], [0.1, 0.1, 0.1]);
+    nMatrixs[4] = mat3.create();
+    mat3.normalFromMat4(nMatrixs[4], mvMatrixs[4]);
+    //
+    mvMatrixs[5] = mat4.create();
+    mat4.scale(mvMatrixs[5], mvMatrixs[5], [0.1, 0.1, 0.1]);
+    nMatrixs[5] = mat3.create();
+    mat3.normalFromMat4(nMatrixs[5], mvMatrixs[5]);
 
     const uniformLightLocation = gl.getUniformLocation(shaderProgram, 'lightLocation');
     gl.uniform3fv(uniformLightLocation, lightLocation );
@@ -70,8 +73,8 @@ function render() {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
 
-        gl.uniformMatrix4fv(mvMatrixLocation, false, mvMatrix0);
-        gl.uniformMatrix3fv(nMatrixLocation, false, nMatrix0);
+        gl.uniformMatrix4fv(mvMatrixLocation, false, mvMatrixs[i]);
+        gl.uniformMatrix3fv(nMatrixLocation, false, nMatrixs[i]);
         gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffers[i]);
         gl.vertexAttribPointer(positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffers[i]);
