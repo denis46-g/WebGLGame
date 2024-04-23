@@ -1,7 +1,7 @@
 window.onload = function () {
     gl = document.getElementById('glcanvas').getContext('webgl2');
     shaderProgram = initShaderProgram(gl, vsSource, fsSource);
-    loadImgsAndBuffers(["Field", "Rock", "Stone", "teasure", "buddha_head", "octopus"]);
+    loadImgsAndBuffers(["Field", "cat", "Stone", "teasure", "buddha_head", "fish"]);
     render();
 }
 
