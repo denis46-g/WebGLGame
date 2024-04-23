@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Game</title>
     <link rel="stylesheet" href="~/bootstrap.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <script src="../js/parseOBJ.js"></script>
+    <script src="../js/vsShaders.js"></script>
+    <script src="../js/fsShaders.js"></script>
+    <script src="../js/init_and_load_shader.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -25,7 +31,7 @@
             </ul>
         </div>
     </nav>
-    <div>
+    <div class="container">
         @RenderBody()
     </div>
 
