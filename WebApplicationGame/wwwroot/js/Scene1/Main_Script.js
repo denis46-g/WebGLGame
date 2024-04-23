@@ -13,7 +13,7 @@ function loadImgsAndBuffers(names) {
     indexBuffers = [];
 
     for (var i = 0; i < names.length; i++) {
-        imgs[i] = document.getElementById(names[i]);
+        imgs[i] = document.getElementById("textures_" + names[i]);
         objs[i] = parseOBJ(names[i]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffers[i] = gl.createBuffer());
@@ -30,17 +30,6 @@ function loadImgsAndBuffers(names) {
     }
 }
 
-function render() {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clearDepth(1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.enable(gl.DEPTH_TEST);
-    gl.depthFunc(gl.LEQUAL);
-
-
-
-    requestAnimationFrame(render);
-}
 
 
 
