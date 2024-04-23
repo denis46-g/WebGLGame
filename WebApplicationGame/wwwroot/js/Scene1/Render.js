@@ -45,11 +45,6 @@ function render() {
     mat4.scale(mvMatrixs[5], mvMatrixs[5], [0.1, 0.1, 0.1]);
     nMatrixs[5] = mat3.create();
     mat3.normalFromMat4(nMatrixs[5], mvMatrixs[5]);
-    //
-    mvMatrixs[6] = mat4.create();
-    mat4.scale(mvMatrixs[6], mvMatrixs[6], [0.1, 0.1, 0.1]);
-    nMatrixs[6] = mat3.create();
-    mat3.normalFromMat4(nMatrixs[6], mvMatrixs[6]);
 
     const uniformLightLocation = gl.getUniformLocation(shaderProgram, 'lightLocation');
     gl.uniform3fv(uniformLightLocation, lightLocation );
