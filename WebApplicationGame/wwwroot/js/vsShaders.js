@@ -5,7 +5,6 @@
     uniform mat4 mvMatrix;
     uniform mat3 nMatrix;
     uniform mat4 pMatrix;
-    uniform mat4 vMatrix;
 
     uniform vec3 lightLocation;
     uniform vec3 ambientLightColor;
@@ -17,7 +16,7 @@
 
     void main(void) {
         float shininess = 0.5;
-        vec4 vertexPositionEye4 = vMatrix * mvMatrix * vec4(aVertexPosition, 1.0);
+        vec4 vertexPositionEye4 = mvMatrix * vec4(aVertexPosition, 1.0);
         vec3 vertexPositionEye3 = vertexPositionEye4.xyz / vertexPositionEye4.w;
         vec3 lightDirection = normalize(lightLocation - vertexPositionEye3);
         vec3 normal = normalize(nMatrix * aVertexPosition.xyz);
@@ -31,7 +30,7 @@
 
         v_LightWeighting = ambientLightColor + (diffuseLightColor * diffuseLightDot + specularLightColor * specularLightParam) * lightIntens;
         v_aTextureCoord = aTextureCoord;
-        gl_Position = pMatrix * vMatrix * mvMatrix * vec4(aVertexPosition, 1.0);
+        gl_Position = pMatrix * mvMatrix * vec4(aVertexPosition, 1.0);
     }`;
 
 
