@@ -10,8 +10,7 @@
 
     void main(void) {
         vec4 pixel = texture2D(texture, v_aTextureCoord);
-        gl_FragColor = pixel;
-        //gl_FragColor = vec4(v_LightWeighting.rgb * pixel.rgb, pixel.a);
+        gl_FragColor = vec4(v_LightWeighting * pixel.rgb, pixel.a);
     }`;
 
 

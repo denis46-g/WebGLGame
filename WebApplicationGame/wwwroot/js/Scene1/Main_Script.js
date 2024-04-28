@@ -1,11 +1,13 @@
-const lightLocation = [15.0, 6.0, 15.0];
+const lightLocation = [15.0, -3.0, -15.0];
+const AmbientLightColor = [0.2, 0.2, 0.2]
+const DiffuseLightColor = [0.5, 0.5, 0.5]
+const SpecularLightColor = [0.8, 0.8, 0.8]
 var xfish;
 
 window.onload = function () {
     x_location = 0;
     z_location = 0;
     xfish = 0;
-
     const gl = document.getElementById('glcanvas').getContext('webgl2');
     const program = initShaderProgram(gl, vsSource, fsSource);
     var imgs = [];
@@ -50,6 +52,7 @@ function render(imgs, objs, gl, program, first) {
     draw_elem(imgs[4], objs[4], gl, program, xfish + 7, 15, 1, 2, false, 4, false);
 
     requestAnimationFrame(function () {
+        document.getElementById("coord").textContent = "x = " + x_location.toFixed(4) + "; z = " + (-z_location - 4).toFixed(4) + ";";
         render(imgs, objs, gl, program, false);
         xfish-=0.1;
         if (xfish < -27)
@@ -115,16 +118,12 @@ function draw_elem(img, obj, gl, program, x, z, y, k, first, i, first_in_item) {
     var pMatrix = mat4.create();
     mat4.perspective(pMatrix, 45 * Math.PI / 180, gl.canvas.height / gl.canvas.width, 0.01, 100.0);
 
-    const AmbientLightColor = [0.5, 0.5, 0.5, 1.0]
-    const DiffuseLightColor = [0.5, 0.5, 0.5, 1.0]
-    const SpecularLightColor = [0.5, 0.5, 0.5, 1.0]
-
     const _AmbientLightColor = gl.getUniformLocation(program, "ambientLightColor");
-    gl.uniform4fv(_AmbientLightColor, AmbientLightColor);
+    gl.uniform3fv(_AmbientLightColor, AmbientLightColor);
     const _DiffuseLightColor = gl.getUniformLocation(program, "diffuseLightColor");
-    gl.uniform4fv(_DiffuseLightColor, DiffuseLightColor);
+    gl.uniform3fv(_DiffuseLightColor, DiffuseLightColor);
     const _SpecularLightColor = gl.getUniformLocation(program, "specularLightColor");
-    gl.uniform4fv(_SpecularLightColor, SpecularLightColor);
+    gl.uniform3fv(_SpecularLightColor, SpecularLightColor);
     const _uLightPosition = gl.getUniformLocation(program, "lightLocation");
     gl.uniform3fv(_uLightPosition, lightLocation);
 
