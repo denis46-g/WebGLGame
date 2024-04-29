@@ -1,8 +1,9 @@
 const lightLocation = [15.0, -3.0, -15.0];
-const AmbientLightColor = [0.2, 0.2, 0.2]
-const DiffuseLightColor = [0.5, 0.5, 0.5]
-const SpecularLightColor = [0.8, 0.8, 0.8]
+const AmbientLightColor = [0.2, 0.2, 0.2];
+const DiffuseLightColor = [0.5, 0.5, 0.5];
+const SpecularLightColor = [0.8, 0.8, 0.8];
 var xfish;
+const teasurePoints = [[5, 5], [-5, -3], [-7, 9]];
 
 window.onload = function () {
     x_location = 0;
@@ -42,9 +43,9 @@ function render(imgs, objs, gl, program, first) {
 
     draw_elem(imgs[0], objs[0], gl, program, 0, 0, 0, 1, first, 0, true);
     draw_elem(imgs[1], objs[1], gl, program, x_location, 4 + z_location, 1, 0.07, first, 1, true);
-    draw_elem(imgs[2], objs[2], gl, program, 5, 5, 0, 1, first, 2, true);
-    draw_elem(imgs[2], objs[2], gl, program, -5, -3, 0, 1, false, 2, false);
-    draw_elem(imgs[2], objs[2], gl, program, -7, 9, 0, 1, false, 2, false);
+    draw_elem(imgs[2], objs[2], gl, program, teasurePoints[0][0], teasurePoints[0][1], 0, 1, first, 2, true);
+    draw_elem(imgs[2], objs[2], gl, program, teasurePoints[1][0], teasurePoints[1][1], 0, 1, false, 2, false);
+    draw_elem(imgs[2], objs[2], gl, program, teasurePoints[2][0], teasurePoints[2][1], 0, 1, false, 2, false);
     draw_elem(imgs[3], objs[3], gl, program, 2, 10, 0, 0.5, first, 3, true);
     draw_elem(imgs[3], objs[3], gl, program, 7, 10, 0, 0.3, false, 3, false);
     draw_elem(imgs[4], objs[4], gl, program, xfish, 15, 1, 2, first, 4, true);
@@ -61,17 +62,55 @@ function render(imgs, objs, gl, program, first) {
 }
 
 window.addEventListener("keydown", function (e) {
-    if (e.code == "ArrowRight")
+    if (e.code == "ArrowRight") {
         x_location += 0.1;
-    if (e.code == "ArrowLeft")
+        if (nearObjPoints()) {
+            x_location -= 0.1;
+            beep();
+        }
+    }
+    if (e.code == "ArrowLeft") {
         x_location -= 0.1;
-    if (e.code == "ArrowUp")
+        if (nearObjPoints()) {
+            x_location += 0.1;
+            beep();
+        }
+    }
+    if (e.code == "ArrowUp") {
         z_location += 0.1;
-    if (e.code == "ArrowDown")
+        if (nearObjPoints()) {
+            z_location -= 0.1;
+            beep();
+        }
+    }
+    if (e.code == "ArrowDown") {
         z_location -= 0.1;
+        if (nearObjPoints()) {
+            z_location += 0.1;
+            beep();
+        }
+    }
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1)
         e.preventDefault();
 }, false);
+
+function beep() { 
+    var ctx = new AudioContext();
+    var oscillator = ctx.createOscillator();
+    // частота в герцах
+    oscillator.frequency.value = 600;
+    oscillator.connect(ctx.destination);
+    oscillator.start();
+    // длительность в секундах
+    oscillator.stop(0.15);
+}
+
+function nearObjPoints() {
+    for (let i = 0; i < teasurePoints.length; i++) {
+        if (Math.abs(teasurePoints[i][0] - x_location) < 0.6 && Math.abs(teasurePoints[i][1] - z_location - 4) < 1)
+            return true;
+    }
+}
 
 function draw_elem(img, obj, gl, program, x, z, y, k, first, i, first_in_item) {
     if (first) {
