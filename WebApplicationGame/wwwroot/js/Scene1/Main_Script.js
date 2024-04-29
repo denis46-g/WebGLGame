@@ -4,6 +4,7 @@ const DiffuseLightColor = [0.5, 0.5, 0.5];
 const SpecularLightColor = [0.8, 0.8, 0.8];
 var xfish;
 const teasurePoints = [[5, 5], [-5, -3], [-7, 9]];
+const scorpionPoints = [[2, 10], [7, 10]];
 
 window.onload = function () {
     x_location = 0;
@@ -46,8 +47,8 @@ function render(imgs, objs, gl, program, first) {
     draw_elem(imgs[2], objs[2], gl, program, teasurePoints[0][0], teasurePoints[0][1], 0, 1, first, 2, true);
     draw_elem(imgs[2], objs[2], gl, program, teasurePoints[1][0], teasurePoints[1][1], 0, 1, false, 2, false);
     draw_elem(imgs[2], objs[2], gl, program, teasurePoints[2][0], teasurePoints[2][1], 0, 1, false, 2, false);
-    draw_elem(imgs[3], objs[3], gl, program, 2, 10, 0, 0.5, first, 3, true);
-    draw_elem(imgs[3], objs[3], gl, program, 7, 10, 0, 0.3, false, 3, false);
+    draw_elem(imgs[3], objs[3], gl, program, scorpionPoints[0][0], scorpionPoints[0][1], 0, 0.5, first, 3, true);
+    draw_elem(imgs[3], objs[3], gl, program, scorpionPoints[1][0], scorpionPoints[1][1], 0, 0.3, false, 3, false);
     draw_elem(imgs[4], objs[4], gl, program, xfish, 15, 1, 2, first, 4, true);
     draw_elem(imgs[4], objs[4], gl, program, xfish - 7, 15, 1, 2, false, 4, false);
     draw_elem(imgs[4], objs[4], gl, program, xfish + 7, 15, 1, 2, false, 4, false);
@@ -110,6 +111,10 @@ function nearObjPoints() {
         if (Math.abs(teasurePoints[i][0] - x_location) < 0.6 && Math.abs(teasurePoints[i][1] - z_location - 4) < 1)
             return true;
     }
+    if (Math.abs(scorpionPoints[0][0] - x_location) < 1.35 && Math.abs(scorpionPoints[0][1] - z_location - 4) < 1.6)
+        return true;
+    if (Math.abs(scorpionPoints[1][0] - x_location) < 1 && Math.abs(scorpionPoints[1][1] - z_location - 4) < 1.1)
+        return true;
 }
 
 function draw_elem(img, obj, gl, program, x, z, y, k, first, i, first_in_item) {
