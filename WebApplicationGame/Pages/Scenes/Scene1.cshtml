@@ -1,18 +1,16 @@
 ﻿@page
 @model Scene
 @{
-    ViewData["Title"] = "Scene1";
+    ViewData["Title"] = "Underwater world";
 }
 <script src="../js/Scene1/vsShaders.js"></script>
 <script src="../js/Scene1/fsShaders.js"></script>
 <script src="../js/Scene1/Main_Script.js"></script>
 
 
-<div style="position: fixed; top: 70px; left: 20px; ">
+<div style="position: fixed; top: 70px; left: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-family: 'comic sans ms';">
     <p id="coord">x = 0; z = -4;</p>
-    <p>
-        <input type="checkbox" id="lightingSpace"> Общее освещение
-    </p>
+    <p><input type="checkbox" id="lightingSpace"> Общее освещение</p>
 </div>
 <canvas id="glcanvas" width="1000" height="1000"></canvas>
 
