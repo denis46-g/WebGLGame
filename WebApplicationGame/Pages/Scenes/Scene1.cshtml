@@ -7,7 +7,13 @@
 <script src="../js/Scene1/fsShaders.js"></script>
 <script src="../js/Scene1/Main_Script.js"></script>
 
-<p id="coord" style="position: fixed; top: 70px; left: 20px; ">x = 0; z = -4;</p>
+
+<div style="position: fixed; top: 70px; left: 20px; ">
+    <p id="coord">x = 0; z = -4;</p>
+    <p>
+        <input type="checkbox" id="lightingSpace"> Общее освещение
+    </p>
+</div>
 <canvas id="glcanvas" width="1000" height="1000"></canvas>
 
 @Model.OBJStoHTML("Field", "octopus", "teasure", "scorpion", "fish")

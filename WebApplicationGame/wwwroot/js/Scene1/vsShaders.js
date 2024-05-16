@@ -10,6 +10,7 @@
     uniform vec3 ambientLightColor;
     uniform vec3 diffuseLightColor;
     uniform vec3 specularLightColor;
+    uniform bool lightingSpace;
 
     varying vec3 v_LightWeighting;
     varying vec2 v_aTextureCoord;
@@ -28,7 +29,10 @@
         float specularLightDot = max(dot(reflectionVector, viewVectorEye), 0.0);
         float specularLightParam = pow(specularLightDot, shininess);
 
-        v_LightWeighting = ambientLightColor + (diffuseLightColor * diffuseLightDot + specularLightColor * specularLightParam) * lightIntens;
+        v_LightWeighting = ambientLightColor;
+        if(lightingSpace){
+            v_LightWeighting += (diffuseLightColor * diffuseLightDot + specularLightColor * specularLightParam) * lightIntens;
+        }
         v_aTextureCoord = aTextureCoord;
         gl_Position = pMatrix * mvMatrix * vec4(aVertexPosition, 1.0);
     }`;
