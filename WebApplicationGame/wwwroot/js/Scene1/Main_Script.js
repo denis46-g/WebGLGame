@@ -2,14 +2,15 @@ const lightLocation = [15.0, -3.0, -15.0];
 const AmbientLightColor = [0.2, 0.2, 0.2];
 const DiffuseLightColor = [0.5, 0.5, 0.5];
 const SpecularLightColor = [0.8, 0.8, 0.8];
-var xfish;
 const teasurePoints = [[5, 5], [-5, -3], [-7, 9]];
 const scorpionPoints = [[2, 10], [7, 10]];
+const mainZkoef = 4;
 
 window.onload = function () {
     document.getElementById('lightingSpace').checked = true;
     x_location = 0;
     z_location = 0;
+    angle = 0;
     xfish = 0;
     const gl = document.getElementById('glcanvas').getContext('webgl2');
     const program = initShaderProgram(gl, vsSource, fsSource);
@@ -48,16 +49,16 @@ function render(objs, gl, program, first) {
     gl.depthFunc(gl.LEQUAL);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    draw_elem(objs[0], gl, program, 0, 0, 0, 1, first, 0, true);
-    draw_elem(objs[1], gl, program, x_location, 4 + z_location, 1, 0.07, first, 1, true);
-    draw_elem(objs[2], gl, program, teasurePoints[0][0], teasurePoints[0][1], 0, 1, first, 2, true);
-    draw_elem(objs[2], gl, program, teasurePoints[1][0], teasurePoints[1][1], 0, 1, false, 2, false);
-    draw_elem(objs[2], gl, program, teasurePoints[2][0], teasurePoints[2][1], 0, 1, false, 2, false);
-    draw_elem(objs[3], gl, program, scorpionPoints[0][0], scorpionPoints[0][1], 0, 0.5, first, 3, true);
-    draw_elem(objs[3], gl, program, scorpionPoints[1][0], scorpionPoints[1][1], 0, 0.3, false, 3, false);
-    draw_elem(objs[4], gl, program, xfish, 15, 1, 2, first, 4, true);
-    draw_elem(objs[4], gl, program, xfish - 7, 15, 1, 2, false, 4, false);
-    draw_elem(objs[4], gl, program, xfish + 7, 15, 1, 2, false, 4, false);
+    draw_elem(objs[0], gl, program, 0, 0, 0, 1, first, 0, true, false);
+    draw_elem(objs[1], gl, program, x_location, mainZkoef + z_location, 1, 0.07, first, 1, true, true);
+    draw_elem(objs[2], gl, program, teasurePoints[0][0], teasurePoints[0][1], 0, 1, first, 2, true, false);
+    draw_elem(objs[2], gl, program, teasurePoints[1][0], teasurePoints[1][1], 0, 1, false, 2, false, false);
+    draw_elem(objs[2], gl, program, teasurePoints[2][0], teasurePoints[2][1], 0, 1, false, 2, false, false);
+    draw_elem(objs[3], gl, program, scorpionPoints[0][0], scorpionPoints[0][1], 0, 0.5, first, 3, true, false);
+    draw_elem(objs[3], gl, program, scorpionPoints[1][0], scorpionPoints[1][1], 0, 0.3, false, 3, false, false);
+    draw_elem(objs[4], gl, program, xfish, 15, 1, 2, first, 4, true, false);
+    draw_elem(objs[4], gl, program, xfish - 7, 15, 1, 2, false, 4, false, false);
+    draw_elem(objs[4], gl, program, xfish + 7, 15, 1, 2, false, 4, false, false);
 
     requestAnimationFrame(function () {
         document.getElementById("coord").textContent = "x = " + x_location.toFixed(4) + "; z = " + (-z_location - 4).toFixed(4) + ";";
@@ -70,34 +71,45 @@ function render(objs, gl, program, first) {
 
 window.addEventListener("keydown", function (e) {
     if (e.code == "ArrowRight") {
-        x_location += 0.1;
+        x_location += 0.1 * Math.cos(angle);
+        z_location -= 0.1 * Math.sin(angle);
         if (nearObjPoints()) {
-            x_location -= 0.1;
+            x_location -= 0.1 * Math.cos(angle);
+            z_location += 0.1 * Math.sin(angle);
             beep();
         }
     }
     if (e.code == "ArrowLeft") {
-        x_location -= 0.1;
+        x_location -= 0.1 * Math.cos(angle);
+        z_location += 0.1 * Math.sin(angle);
         if (nearObjPoints()) {
-            x_location += 0.1;
+            x_location += 0.1 * Math.cos(angle);
+            z_location -= 0.1 * Math.sin(angle);
             beep();
         }
     }
     if (e.code == "ArrowUp") {
-        z_location += 0.1;
+        x_location += 0.1 * Math.sin(Math.PI - angle);
+        z_location -= 0.1 * Math.cos(Math.PI - angle);
         if (nearObjPoints()) {
-            z_location -= 0.1;
+            x_location -= 0.1 * Math.sin(Math.PI - angle);
+            z_location += 0.1 * Math.cos(Math.PI - angle);
             beep();
         }
     }
     if (e.code == "ArrowDown") {
-        z_location -= 0.1;
+        x_location -= 0.1 * Math.sin(Math.PI - angle);
+        z_location += 0.1 * Math.cos(Math.PI - angle);
         if (nearObjPoints()) {
-            z_location += 0.1;
+            x_location += 0.1 * Math.sin(Math.PI - angle);
+            z_location -= 0.1 * Math.cos(Math.PI - angle);
             beep();
         }
+    } 
+    if (e.key == " ") {
+        angle = (angle + 0.1) % (2 * Math.PI);
     }
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1)
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].indexOf(e.code) > -1)
         e.preventDefault();
 }, false);
 
@@ -114,16 +126,16 @@ function beep() {
 
 function nearObjPoints() {
     for (let i = 0; i < teasurePoints.length; i++) {
-        if (Math.abs(teasurePoints[i][0] - x_location) < 0.6 && Math.abs(teasurePoints[i][1] - z_location - 4) < 1)
+        if (Math.abs(teasurePoints[i][0] - x_location) < 0.6 && Math.abs(teasurePoints[i][1] - z_location - mainZkoef) < 1)
             return true;
     }
-    if (Math.abs(scorpionPoints[0][0] - x_location) < 1.35 && Math.abs(scorpionPoints[0][1] - z_location - 4) < 1.6)
+    if (Math.abs(scorpionPoints[0][0] - x_location) < 1.35 && Math.abs(scorpionPoints[0][1] - z_location - mainZkoef) < 1.6)
         return true;
-    if (Math.abs(scorpionPoints[1][0] - x_location) < 1 && Math.abs(scorpionPoints[1][1] - z_location - 4) < 1.1)
+    if (Math.abs(scorpionPoints[1][0] - x_location) < 1 && Math.abs(scorpionPoints[1][1] - z_location - mainZkoef) < 1.1)
         return true;
 }
 
-function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item) {
+function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain) {
     if (first) {
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVerticesBuffer[i] = gl.createBuffer());
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(obj.position.flat()), gl.STATIC_DRAW);
@@ -153,7 +165,13 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item) {
         0, k, 0, 0,
         0, 0, k, 0,
         0, 0, 0, 1];
+    mat4.translate(mvMatrix, mvMatrix, [0, 0, -(1 / k) * mainZkoef]);
+    if (!isMain) {
+        mat4.rotateY(mvMatrix, mvMatrix, angle);
+    }
+    mat4.translate(mvMatrix, mvMatrix, [0, 0, (1 / k) * mainZkoef]);
     mat4.translate(mvMatrix, mvMatrix, [(1 / k) * (x - x_location), -(1.25 / k) + y, (1 / k) * (z_location - z)]);
+
     mat3.normalFromMat4(nMatrix = mat3.create(), mvMatrix);
     mat4.perspective(pMatrix = mat4.create(), 45 * Math.PI / 180, gl.canvas.height / gl.canvas.width, 0.01, 100.0);
 
