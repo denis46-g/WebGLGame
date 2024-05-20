@@ -24,10 +24,12 @@ window.onload = function () {
 
     gl.enableVertexAttribArray(vertexPositionAttribute = gl.getAttribLocation(program, "aVertexPosition"));
     gl.enableVertexAttribArray(vertexTextureAttribute = gl.getAttribLocation(program, "aTextureCoord"));
+    gl.enableVertexAttribArray(normalAttribute = gl.getAttribLocation(program, "aNormal"));
     gl.useProgram(program);
 
     squareVerticesBuffer = [];
     textureBuffer = [];
+    normalBuffer = [];
     indexBuffer = [];
 
     for (var i = 0; i < 5; i++) {
@@ -140,6 +142,9 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVerticesBuffer[i] = gl.createBuffer());
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(obj.position.flat()), gl.STATIC_DRAW);
 
+        gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer[i] = gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(obj.normal.flat()), gl.STATIC_DRAW);
+
         gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffer[i] = gl.createBuffer());
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(obj.texcoord.flat()), gl.STATIC_DRAW);
 
@@ -155,6 +160,9 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
 
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVerticesBuffer[i]);
         gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer[i]);
+        gl.vertexAttribPointer(normalAttribute, 3, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffer[i]);
         gl.vertexAttribPointer(vertexTextureAttribute, 2, gl.FLOAT, false, 0, 0);
