@@ -35,10 +35,10 @@
 
     void main(void) {
         vec4 pixel = texture2D(texture, v_aTextureCoord);
-        //vec3 lightLocation2 = (mvMatrix2 * vec4(lightLocation, 1.0)).xyz;
+        vec3 lightLocation2 = (mvMatrix2 * vec4(lightLocation, 1.0)).xyz;
         vec3 lightWeighting = ambientLightColor;
         if(lightingSpace){
-            lightWeighting += phong(lightLocation);
+            lightWeighting += phong(lightLocation2);
         }
 
         gl_FragColor = vec4(lightWeighting * pixel.rgb, pixel.a);
