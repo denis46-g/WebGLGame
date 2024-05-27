@@ -157,10 +157,16 @@ window.addEventListener("keydown", function (e) {
     if (e.key == " ") {
         angle = (angle + 0.1) % (2 * Math.PI);
     }
+    if (e.code == "KeyB") {
+        angle = (angle - 0.1) % (2 * Math.PI);
+    }
     if (e.key == "1") {
         a2 = (a2 + 0.1) % (2 * Math.PI);
     }
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " ", "1"].indexOf(e.code) > -1)
+    if (e.key == "2") {
+        a2 = (a2 - 0.1) % (2 * Math.PI);
+    }
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " ", "KeyB", "1", "2"].indexOf(e.code) > -1)
         e.preventDefault();
 }, false);
 
