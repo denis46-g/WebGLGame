@@ -6,6 +6,9 @@ const teasurePoints = [[4, 6], [-5, -6], [-3, 9]];
 var scorpionPoints = [[2, 10], [7, 10]];
 const mainZkoef = 4;
 var a2 = 0.0;
+var f2 = false;
+var f3 = false;
+var f4 = false;
 
 function GetSunCoords() {
     const k0 = document.getElementById("sunX").value
@@ -33,7 +36,12 @@ window.onload = function () {
     x_location = 0;
     z_location = 0;
     angle = 0;
-    xfish = 0;
+    xfish = -20.0;
+    xfish2 = -20.0;
+
+    zfish = 20.0;
+    zfish2 = 20.0;
+
     const gl = document.getElementById('glcanvas').getContext('webgl2');
     const program = initShaderProgram(gl, vsSource, fsSource);
     var imgs = [];
@@ -89,16 +97,23 @@ function render(objs, gl, program, first) {
     draw_elem(objs[3], gl, program, scorpionPoints[0][0], scorpionPoints[0][1], 0, 0.5, first, 3, true, false);
     draw_elem(objs[3], gl, program, scorpionPoints[1][0], scorpionPoints[1][1], 0, 0.3, false, 3, false, false);
     draw_elem(objs[1], gl, program, x_location, mainZkoef + z_location, 0.12, 0.5, first, 1, true, true);
-    draw_elem(objs[4], gl, program, xfish, 15, 4, 1.1, first, 4, true, false);
-    draw_elem(objs[4], gl, program, xfish - 7, 15, 4, 1.1, false, 4, false, false);
-    draw_elem(objs[4], gl, program, xfish + 7, 15, 4, 1.1, false, 4, false, false);
+    draw_elem(objs[4], gl, program, xfish, 18, 4, 1.1, first, 4, true, false);
+    f2 = true;
+    draw_elem(objs[4], gl, program, xfish, 18, 4, 1.1, false, 4, false, false);
+    f2 = false;
+    f3 = true;
+    draw_elem(objs[4], gl, program, xfish, 18, 4, 1.1, false, 4, false, false);
+    f3 = false;
+    f4 = true;
+    draw_elem(objs[4], gl, program, xfish, 18, 4, 1.1, false, 4, false, false);
+    f4 = false;
 
     requestAnimationFrame(function () {
         document.getElementById("coord").textContent = "x = " + x_location.toFixed(4) + "; z = " + (-z_location - 4).toFixed(4) + ";";
         render(objs, gl, program, false);
-        xfish+=0.1;
-        if (xfish > 27)
-            xfish = -27;
+        xfish += 0.05;
+        if (xfish > 21)
+            xfish = -21;
     });
 }
 
@@ -207,6 +222,16 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
         0, k, 0, 0,
         0, 0, k, 0,
         0, 0, 0, 1];
+
+    if (f2 == true) {
+        mat4.rotateY(mvMatrix, mvMatrix, Math.PI);
+    }
+    if (f3 == true) {
+        mat4.rotateY(mvMatrix, mvMatrix, Math.PI * 1.5);
+    }
+    if (f4 == true) {
+        mat4.rotateY(mvMatrix, mvMatrix, Math.PI * 0.5);
+    }
 
 
     mat4.translate(mvMatrix, mvMatrix, [-(1 / k) * x, -(1.25 / k) + y, (1 / k) * z]);
