@@ -6,6 +6,13 @@ const teasurePoints = [[5, 5], [-5, -3], [-7, 9]];
 const scorpionPoints = [[2, 10], [7, 10]];
 const mainZkoef = 4;
 
+function GetSunCoords() {
+    const k0 = document.getElementById("sunX").value
+    const k1 = document.getElementById("sunY").value
+    const k2 = document.getElementById("sunZ").value
+    return [k0, k1, k2];
+}
+
 window.onload = function () {
     document.getElementById('lightingSpace').checked = true;
     x_location = 0;
@@ -195,7 +202,7 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
     var Invmat = mat4.create();
     mat4.invert(Invmat, mvMatrix);
 
-    gl.uniform3fv(gl.getUniformLocation(program, "lightLocation"), lightLocation);
+    gl.uniform3fv(gl.getUniformLocation(program, "lightLocation"), GetSunCoords());
     gl.uniform1i(gl.getUniformLocation(program, "lightingSpace"), document.getElementById('lightingSpace').checked);
 
     gl.uniformMatrix4fv(gl.getUniformLocation(program, "mvMatrix"), false, mvMatrix);
