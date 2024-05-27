@@ -19,6 +19,13 @@ function GetSunCoords2() {
     return [k0, k1, k2];
 }
 
+function GetHren() {
+    const k0 = document.getElementById("ambient").value
+    const k1 = document.getElementById("atten").value
+    const k2 = document.getElementById("attenL").value
+    return [k0, k1, k2];
+}
+
 window.onload = function () {
     document.getElementById('lightingSpace').checked = true;
     document.getElementById('lightingSpace2').checked = true;
@@ -214,6 +221,13 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
 
     gl.uniform3fv(gl.getUniformLocation(program, "lightLocation2"), GetSunCoords2());
     gl.uniform1i(gl.getUniformLocation(program, "lightingSpace2"), document.getElementById('lightingSpace2').checked);
+
+    var [amb, att, attL] = GetHren();
+    gl.uniform1f(gl.getUniformLocation(program, "amb"), amb);
+
+    gl.uniform1f(gl.getUniformLocation(program, "att"), att);
+
+    gl.uniform1f(gl.getUniformLocation(program, "attL"), attL);
 
     gl.uniformMatrix4fv(gl.getUniformLocation(program, "mvMatrix"), false, mvMatrix);
 
