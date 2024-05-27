@@ -12,9 +12,16 @@ function GetSunCoords() {
     const k2 = document.getElementById("sunZ").value
     return [k0, k1, k2];
 }
+function GetSunCoords2() {
+    const k0 = document.getElementById("sunX2").value
+    const k1 = document.getElementById("sunY2").value
+    const k2 = document.getElementById("sunZ2").value
+    return [k0, k1, k2];
+}
 
 window.onload = function () {
     document.getElementById('lightingSpace').checked = true;
+    document.getElementById('lightingSpace2').checked = true;
     x_location = 0;
     z_location = 0;
     angle = 0;
@@ -182,20 +189,18 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
         0, 0, 0, 1];
 
 
-    /*if (isMain) {
-        mat4.translate(mvMatrix, mvMatrix, [0, 0, (1 / k) * z]);
-        mat4.rotateY(mvMatrix, mvMatrix, angle);
-        mat4.translate(mvMatrix, mvMatrix, [0, 0, -(1 / k) * z]);
-    }*/
-
     mat4.translate(mvMatrix, mvMatrix, [-(1 / k) * x, -(1.25 / k) + y, (1 / k) * z]);
+
+    if (isMain) {
+        mat4.translate(mvMatrix, mvMatrix, [0, 0, 0.2]);
+        mat4.rotateY(mvMatrix, mvMatrix, -angle);
+        mat4.translate(mvMatrix, mvMatrix, [0, 0, -0.2]);
+    }
 
     mat4.lookAt(vMatrix = mat4.create(), [- x_location, 0, z_location], [- x_location, 0, 1000], [0, 1, 0]);
 
     mat3.normalFromMat4(nMatrix = mat3.create(), mvMatrix);
     mat4.perspective(pMatrix = mat4.create(), 45 * Math.PI / 180, gl.canvas.height / gl.canvas.width, 0.01, 100.0);
-
-    //mat4.translate(pMatrix, pMatrix, [(1 / k) * (x - x_location), -(1.25 / k) + y, (1 / k) * (z_location - z)]);
 
     gl.uniform3fv(gl.getUniformLocation(program, "ambientLightColor"), AmbientLightColor);
     gl.uniform3fv(gl.getUniformLocation(program, "diffuseLightColor"), DiffuseLightColor);
@@ -206,6 +211,9 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
 
     gl.uniform3fv(gl.getUniformLocation(program, "lightLocation"), GetSunCoords());
     gl.uniform1i(gl.getUniformLocation(program, "lightingSpace"), document.getElementById('lightingSpace').checked);
+
+    gl.uniform3fv(gl.getUniformLocation(program, "lightLocation2"), GetSunCoords2());
+    gl.uniform1i(gl.getUniformLocation(program, "lightingSpace2"), document.getElementById('lightingSpace2').checked);
 
     gl.uniformMatrix4fv(gl.getUniformLocation(program, "mvMatrix"), false, mvMatrix);
 

@@ -8,10 +8,12 @@
     uniform mat4 mvMatrix2;
     uniform mat3 nMatrix;
     uniform vec3 lightLocation;
+    uniform vec3 lightLocation2;
     uniform vec3 ambientLightColor;
     uniform vec3 diffuseLightColor;
     uniform vec3 specularLightColor;
     uniform bool lightingSpace;
+    uniform bool lightingSpace2;
     varying vec2 v_aTextureCoord;
     varying vec3 v_aVertexPosition;
     varying vec3 v_aNormal;
@@ -35,10 +37,12 @@
 
     void main(void) {
         vec4 pixel = texture2D(texture, v_aTextureCoord);
-        //vec3 lightLocation2 = (mvMatrix2 * vec4(lightLocation, 1.0)).xyz;
         vec3 lightWeighting = ambientLightColor;
         if(lightingSpace){
             lightWeighting += phong(lightLocation);
+        }
+        if(lightingSpace2){
+            lightWeighting += phong(lightLocation2);
         }
 
         gl_FragColor = vec4(lightWeighting * pixel.rgb, pixel.a);
