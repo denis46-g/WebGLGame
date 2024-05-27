@@ -64,7 +64,7 @@ function render(objs, gl, program, first) {
     draw_elem(objs[2], gl, program, teasurePoints[2][0], teasurePoints[2][1], 0, 1, false, 2, false, false);
     draw_elem(objs[3], gl, program, scorpionPoints[0][0], scorpionPoints[0][1], 0, 0.5, first, 3, true, false);
     draw_elem(objs[3], gl, program, scorpionPoints[1][0], scorpionPoints[1][1], 0, 0.3, false, 3, false, false);
-    draw_elem(objs[1], gl, program, x_location, mainZkoef + z_location, 1, 0.07, first, 1, true, true);
+    draw_elem(objs[1], gl, program, x_location, mainZkoef + z_location, 0.12, 1.2, first, 1, true, true);
     draw_elem(objs[4], gl, program, xfish, 15, 1, 2, first, 4, true, false);
     draw_elem(objs[4], gl, program, xfish - 7, 15, 1, 2, false, 4, false, false);
     draw_elem(objs[4], gl, program, xfish + 7, 15, 1, 2, false, 4, false, false);
@@ -72,9 +72,9 @@ function render(objs, gl, program, first) {
     requestAnimationFrame(function () {
         document.getElementById("coord").textContent = "x = " + x_location.toFixed(4) + "; z = " + (-z_location - 4).toFixed(4) + ";";
         render(objs, gl, program, false);
-        xfish-=0.1;
-        if (xfish < -27)
-            xfish = 27;
+        xfish+=0.1;
+        if (xfish > 27)
+            xfish = -27;
     });
 }
 
@@ -180,15 +180,17 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
         0, k, 0, 0,
         0, 0, k, 0,
         0, 0, 0, 1];
-    mat4.translate(mvMatrix, mvMatrix, [0, 0, -(1 / k) * mainZkoef]);
-    if (!isMain) {
-        mat4.rotateY(mvMatrix, mvMatrix, angle);
-    }
-    mat4.translate(mvMatrix, mvMatrix, [0, 0, (1 / k) * mainZkoef]);
 
-    //!!!
-    mat4.translate(mvMatrix, mvMatrix, [(1 / k) * (x - x_location), -(1.25 / k) + y, (1 / k) * (z_location - z)]);
-    //!!!
+
+    /*if (isMain) {
+        mat4.translate(mvMatrix, mvMatrix, [0, 0, (1 / k) * z]);
+        mat4.rotateY(mvMatrix, mvMatrix, angle);
+        mat4.translate(mvMatrix, mvMatrix, [0, 0, -(1 / k) * z]);
+    }*/
+
+    mat4.translate(mvMatrix, mvMatrix, [-(1 / k) * x, -(1.25 / k) + y, (1 / k) * z]);
+
+    mat4.lookAt(vMatrix = mat4.create(), [- x_location, 0, z_location], [- x_location, 0, 1000], [0, 1, 0]);
 
     mat3.normalFromMat4(nMatrix = mat3.create(), mvMatrix);
     mat4.perspective(pMatrix = mat4.create(), 45 * Math.PI / 180, gl.canvas.height / gl.canvas.width, 0.01, 100.0);
@@ -211,6 +213,7 @@ function draw_elem(obj, gl, program, x, z, y, k, first, i, first_in_item, isMain
 
     gl.uniformMatrix3fv(gl.getUniformLocation(program, "nMatrix"), false, nMatrix);
     gl.uniformMatrix4fv(gl.getUniformLocation(program, "pMatrix"), false, pMatrix);
+    gl.uniformMatrix4fv(gl.getUniformLocation(program, "vMatrix"), false, vMatrix);
 
     gl.drawElements(gl.TRIANGLES, obj.position.length - 2, gl.UNSIGNED_SHORT, 0);
 }
