@@ -177,12 +177,12 @@ function beep() {
 
 function nearObjPoints() {
     for (let i = 0; i < teasurePoints.length; i++) {
-        if (Math.abs(teasurePoints[i][0] - x_location) < 0.6 && Math.abs(teasurePoints[i][1] - z_location - mainZkoef) < 1)
+        if (Math.abs(teasurePoints[i][0] - x_location) < 1.2 && Math.abs(teasurePoints[i][1] - z_location - mainZkoef) < 2)
             return true;
     }
-    if (Math.abs(scorpionPoints[0][0] - x_location) < 1.35 && Math.abs(scorpionPoints[0][1] - z_location - mainZkoef) < 1.6)
+    if (Math.abs(scorpionPoints[0][0] - x_location) < 2.15 && Math.abs(scorpionPoints[0][1] - z_location - mainZkoef) < 2.2)
         return true;
-    if (Math.abs(scorpionPoints[1][0] - x_location) < 1 && Math.abs(scorpionPoints[1][1] - z_location - mainZkoef) < 1.1)
+    if (Math.abs(scorpionPoints[1][0] - x_location) < 2.15 && Math.abs(scorpionPoints[1][1] - z_location - mainZkoef) < 2.2)
         return true;
 }
 
