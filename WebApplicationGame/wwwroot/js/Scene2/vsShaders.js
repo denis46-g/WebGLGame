@@ -6,6 +6,7 @@
     
     uniform mat4 pMatrix;
     uniform mat4 mvMatrix;
+    uniform mat4 vMatrix;
     varying vec2 v_aTextureCoord;
     varying vec3 v_aVertexPosition;
     varying vec3 v_aNormal;
@@ -14,7 +15,7 @@
         v_aTextureCoord = aTextureCoord;
         v_aVertexPosition = aVertexPosition;
         v_aNormal = aNormal;
-        gl_Position = pMatrix * mvMatrix * vec4(aVertexPosition, 1.0);
+        gl_Position = pMatrix * vMatrix * mvMatrix * vec4(aVertexPosition, 1.0);
     }`;
 
 
