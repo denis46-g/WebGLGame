@@ -132,6 +132,9 @@ window.addEventListener("keydown", function (e) {
     if (e.key == " ") {
         angle = (angle + 0.1) % (2 * Math.PI);
     }
+    if (e.ctrlKey) {
+        angle = (angle - 0.1) % (2 * Math.PI);
+    }
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].indexOf(e.code) > -1)
         e.preventDefault();
 }, false);
