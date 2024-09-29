@@ -1,0 +1,61 @@
+﻿@page
+@model Scene
+@{
+    ViewData["Title"] = "Cartoon";
+}
+<script src="../js/Scene3/vsShaders.js"></script>
+<script src="../js/Scene3/fsShaders.js"></script>
+<script src="../js/Scene3/Main_Script.js"></script>
+
+
+<div style="position: fixed; top: 70px; left: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-family: 'comic sans ms';">
+    <p id="coord">x = 0; z = -4;</p>
+    <p><input type="checkbox" id="lightingSpace"> Фонарь 1</p>
+    <div>
+        <p>SunX</p>
+        <input id="sunX" type="range" min="-100.0" max="100.0" step="0.5">
+    </div>
+    <div>
+        <p>SunY</p>
+        <input id="sunY" type="range" min="-90" max="100" step="0.5">
+    </div>
+    <div>
+        <p>SunZ</p>
+        <input id="sunZ" type="range" min="-100" max="100" step="0.5">
+    </div>
+    <p><input type="checkbox" id="lightingSpace2"> Фонарь 2</p>
+    <div>
+        <p>SunX</p>
+        <input id="sunX2" type="range" min="-100.0" max="100.0" step="0.5">
+    </div>
+    <div>
+        <p>SunY</p>
+        <input id="sunY2" type="range" min="-90" max="100" step="0.5">
+    </div>
+    <div>
+        <p>SunZ</p>
+        <input id="sunZ2" type="range" min="-100" max="100" step="0.5">
+    </div>
+
+</div>
+
+<div style="position: fixed; top: 70px; right: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-family: 'comic sans ms';">
+    
+    <div>
+        <p>Ambient</p>
+        <input id="ambient" type="range" min="0.0" max="8.0" step="0.01">
+    </div>
+    <div>
+        <p>Atten</p>
+        <input id="atten" type="range" min="0.1" max="3" step="0.05">
+    </div>
+
+    <div>
+        <p>AttenLin</p>
+        <input id="attenL" type="range" min="0.0" max="5" step="0.05">
+    </div>
+</div>
+<canvas id="glcanvas" width="1000" height="1000"></canvas>
+
+@Model.OBJStoHTML("chess", "rabbit", "house1", "house2", "ufo", "horse", "floor", "lift", "spongebob", "patrick")
+
